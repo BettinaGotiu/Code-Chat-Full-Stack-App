@@ -1,4 +1,50 @@
-# Code-Chat-2024
+# Code Chat Full Stack App 
+
+This project, **Code-Chat-2024**, is a cloud-native, production-ready full-stack chatbot application developed as part of the **Arnia x LigaAC Labs 2024** program. It was built under the guidance and mentorship of industry professionals and academic coordinators, offering valuable experience in collaborative software development and modern application architecture.
+
+The app combines the power of contemporary web technologies with Large Language Model (LLM) integration and scalable AWS infrastructure to deliver intelligent, customizable chatbot interactions in a full-stack environment.
+
+##  Purpose
+
+- Deliver a scalable, full-stack chatbot with Retrieval-Augmented Generation (RAG) capabilities.
+- Enable cloud-native deployment using AWS services.
+- Provide consistent local development through DevContainers and Docker Compose.
+
+---
+
+##  Key Features
+
+- Real-time AI-powered chat interface.
+- LLM integration with LangChain and Amazon Bedrock.
+- Modular monorepo structure for easy maintenance and extension.
+- CI/CD-ready with full DevOps support and automated testing.
+- Built with Next.js, Node.js, and DynamoDB, supporting full-stack scalability.
+
+---
+
+##  Architecture Overview
+
+The project follows a monorepo pattern organized under `packages/`, with the major components:
+
+- **Frontend:** `packages/client` – Built with Next.js and TypeScript.
+- **API/Backend:** `packages/infra` – AWS Lambda (Node.js), API Gateway, and DynamoDB.
+- **LLM Logic:** `packages/llm` – LangChain orchestration using Bedrock (Titan model).
+- **Infrastructure:** `packages/infraorg` – Organization-level IaC using AWS CDK.
+
+---
+
+##  Technologies Used
+
+| Layer            | Stack                                                                 |
+|------------------|-----------------------------------------------------------------------|
+| **Frontend**     | React, Next.js, TypeScript                                            |
+| **Backend**      | Node.js, AWS Lambda, API Gateway, DynamoDB                           |
+| **LLM**          | LangChain, Amazon Bedrock (Titan), vector search, embeddings         |
+| **Infrastructure** | AWS CDK, S3, CloudFront, Route 53, Certificate Manager (ACM)        |
+| **DevOps**       | Docker, Docker Compose, DevContainers, Yarn, Jest                    |
+| **Other**        | Python (RAG utilities: `ragutil.py`, `requirements.txt`)             |
+
+---
 
 ## Table of Contents
 
