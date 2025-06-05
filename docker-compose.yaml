@@ -1,0 +1,70 @@
+services:
+  mysql:
+    image: mysql:8.1.0
+    container_name: mysql
+    hostname: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: codechat2024
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ${LOCAL_WORKSPACE}/docker/mysql:/docker-entrypoint-initdb.d
+      - vol_mysql_data:/var/lib/mysql
+    networks:
+      - codechat2024
+
+  dynamodb:
+    image: public.ecr.aws/aws-dynamodb-local/aws-dynamodb-local:2.4.0
+    container_name: dynamodb
+    hostname: dynamodb
+    environment:
+      AWS_REGION: eu-west-1
+    ports:
+      - "8000:8000"
+    networks:
+      - codechat2024
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin
+    container_name: dynamodb-admin
+    hostname: dynamodb-admin
+    ports:
+      - "8001:8001"
+    environment:
+      AWS_REGION: eu-west-1
+      DYNAMO_ENDPOINT: http://dynamodb:8000
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+    networks:
+      - codechat2024
+
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm
+    container_name: devcontainer
+    hostname: devcontainer
+    command: sleep infinity
+    volumes:
+      - .:/workspace
+      - vol_shell_history:/dc/shellhistory
+      - vol_vscode:/vol_vscode
+      - /var/run/docker.sock:/var/run/docker-host.sock
+      - $HOME/.aws:/home/node/.aws
+    environment:
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_PROFILE: cris_prod
+      PYTHONPATH: /workspace
+    networks:
+      - codechat2024
+
+volumes:
+  vol_mysql_data:
+  vol_shell_history:
+  vol_vscode:
+
+networks:
+  codechat2024:

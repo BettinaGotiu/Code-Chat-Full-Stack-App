@@ -1,0 +1,46 @@
+{
+  "name": "@code-chat-2024/monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "packages/shared/*"
+  ],
+  "scripts": {
+    "postinstall": "shx echo LOCAL_WORKSPACE=$(node -p \"process.cwd()\") > .env",
+    "deploy": "yarn deploy:db && yarn deploy:api && yarn deploy:web:devcontainer",
+    "deploy:db": "cd packages/infra && npm run cdk -- deploy CodeChat-DB-$ENV",
+    "deploy:api": "yarn workspace @code-chat-2024/api run build && cd packages/infra && npm run cdk -- deploy -c CDK_DEFAULT_ACCOUNT=$CDK_DEFAULT_ACCOUNT CodeChat-Api-$ENV",
+    "deploy:web": "yarn workspace @code-chat-2024/client run build && cd packages/infra && npm run cdk --deploy CodeChat-Web-$ENV",
+    "deploy:web:devcontainer": "yarn workspace @code-chat-2024/client run build && cd packages/infra && npm run cdk -- deploy -c CDK_DEFAULT_ACCOUNT=$CDK_DEFAULT_ACCOUNT -c DEV_CONTAINER=true CodeChat-Web-$ENV",
+    "destroy": "yarn destroy:db && yarn destroy:api && yarn destroy:web",
+    "destroy:db": "cd packages/infra && npm run cdk -- destroy CodeChat-DB-$ENV",
+    "destroy:api": "cd packages/infra && npm run cdk -- destroy CodeChat-Api-$ENV",
+    "destroy:web": "cd packages/infra && npm run cdk -- destroy CodeChat-Web-$ENV",
+    "destroy:web:devcontainer": "cd packages/infra && npm run cdk -- destroy -c CDK_DEFAULT_ACCOUNT=$CDK_DEFAULT_ACCOUNT -c DEV_CONTAINER=true CodeChat-Web-$ENV",
+    "deploy:org": "cd packages/infraorg && npm run cdk -- deploy CodeChat-Organization-PROD"
+  },
+  "packageManager": "yarn@4.1.1",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.577.0",
+    "@aws-sdk/client-dynamodb": "^3.584.0",
+    "@faker-js/faker": "^8.4.1",
+    "@langchain/community": "^0.2.0",
+    "@langchain/pinecone": "^0.0.7",
+    "@langchain/textsplitters": "^0.0.2",
+    "@smithy/eventstream-codec": "^3.0.0",
+    "@types/cors": "^2.8.17",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "langchain": "^0.2.0",
+    "mathjs": "^12.4.2",
+    "pdf-parse": "^1.1.1",
+    "react-feather": "^2.0.10"
+  },
+  "devDependencies": {
+    "shx": "^0.3.4"
+  }
+}
